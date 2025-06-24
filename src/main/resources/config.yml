@@ -1,11 +1,10 @@
 group:
-  msgformat: "{world-prefix}{prefix}{name-color}{player}{message-color}: {message}"
-  prefix: "§7[§bГруппа§7] "
+  prefix: "§7[§bГруппа]"
   placeholder-prefix: "%luckperms_prefix%"
-  receiver-prefix: "%luckperms_prefix%"
   name-color: "&#00ffcc"
   receiver-color: "§7"
   message-color: "&#ffffff"
   world-prefix:
     enabled: false
-    format: "§8[{world}] "
+    format: "§8[{world}]"
+  msgformat: "{prefix} §r{placeholder-prefix}{name-color}{player} §7>> {message-color}{message}"
