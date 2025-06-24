@@ -1,0 +1,48 @@
+name: SimpleGroupChat
+version: '1.0-SNAPSHOT'
+main: kz.megabob.simpleGroupChat.SimpleGroupChat
+api-version: '1.21'
+authors: [ megabob ]
+description: Плагин группового чата с кастомными форматами
+softdepend: [PlaceholderAPI]
+commands:
+  glist:
+    description: Показать все группы
+    usage: /glist
+
+  gsetname:
+    description: Переименовать свою группу
+    usage: /gsetname <новое_имя>
+
+  grequest:
+    description: Отправить заявку в группу
+    usage: /grequest <группа>
+
+  gaccept:
+    description: Принять игрока в свою группу
+    usage: /gaccept <ник>
+
+  gchat:
+    description: Отправить сообщение в группу
+    usage: /gchat [on|off|status]
+    aliases: [gc]
+
+  gcreate:
+    description: Создать новую группу
+    usage: /gcreate <название>
+
+  gleave:
+    description: Выйти из своей группы
+    usage: /gleave
+
+  grequests:
+    description: Посмотреть список заявок в группу
+    usage: /grequests
+
+  gdeny:
+    description: Отклонить заявку в группу
+    usage: /gdeny <ник>
+
+  gkick:
+    description: Исключить игрока из группы
+    usage: /gkick <ник>
