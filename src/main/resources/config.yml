@@ -1,5 +1,5 @@
 group:
-  prefix: "§7[§bГруппа]"
+  prefix: "§7[&#00ffccGROUP§7]"
   placeholder-prefix: "%luckperms_prefix%"
   name-color: "&#00ffcc"
   receiver-color: "§7"

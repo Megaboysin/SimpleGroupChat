@@ -21,19 +21,35 @@ public final class SimpleGroupChat extends JavaPlugin {
         this.formatResolver = new FormatResolver(this, true);
         this.groupChatHandler = new GroupChatHandler(groupManager, formatResolver);
         GroupChatToggleCommand toggleCommand = new GroupChatToggleCommand(groupChatHandler);
+        GroupCommandTabCompleter tabCompleter = new GroupCommandTabCompleter(groupManager);
 
 
         getCommand("gcreate").setExecutor(new GroupCreateCommand(groupManager));
         getCommand("glist").setExecutor(new GroupListCommand(groupManager));
-        getCommand("gsetname").setExecutor(new GroupRenameCommand(groupManager));
         getCommand("grequest").setExecutor(new GroupRequestCommand(groupManager));
-        getCommand("gaccept").setExecutor(new GroupAcceptCommand(groupManager));
+        getCommand("gacceptrequest").setExecutor(new GroupAcceptCommand(groupManager));
+        getCommand("gacceptinvite").setExecutor(new GroupAcceptInviteCommand(groupManager));
         getCommand("gleave").setExecutor(new GroupLeaveCommand(groupManager));
         getCommand("grequests").setExecutor(new GroupRequestsCommand(groupManager));
-        getCommand("gdeny").setExecutor(new GroupDenyCommand(groupManager));
+        getCommand("gdenyrequest").setExecutor(new GroupDenyRequestCommand(groupManager));
+        getCommand("gdenyinvite").setExecutor(new GroupDenyInviteCommand(groupManager));
         getCommand("gkick").setExecutor(new GroupKickCommand(groupManager));
+        getCommand("ginvites").setExecutor(new GroupInvitesCommand(groupManager));
         getCommand("gchat").setExecutor(toggleCommand);
+        getCommand("ginvite").setExecutor(new GroupInviteCommand(groupManager));
+
+        getCommand("grequest").setTabCompleter(tabCompleter);
+        getCommand("gaccept").setTabCompleter(tabCompleter);
+        getCommand("gdeny").setTabCompleter(tabCompleter);
+        getCommand("gkick").setTabCompleter(tabCompleter);
+        getCommand("ginvite").setTabCompleter(tabCompleter);
+        getCommand("glist").setTabCompleter(tabCompleter);
+        getCommand("gcreate").setTabCompleter(tabCompleter);
+        getCommand("grequests").setTabCompleter(tabCompleter);
+        getCommand("gleave").setTabCompleter(tabCompleter);
+        getCommand("ginvites").setTabCompleter(tabCompleter);
         getCommand("gchat").setTabCompleter(toggleCommand);
+
 
         getServer().getPluginManager().registerEvents(groupChatHandler, this);
 

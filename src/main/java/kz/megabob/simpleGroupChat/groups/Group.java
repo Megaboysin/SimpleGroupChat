@@ -9,6 +9,8 @@ public class Group {
     private UUID owner;
     private final Set<UUID> members = new HashSet<>();
     private final Set<UUID> joinRequests = new HashSet<>();
+    private final Set<UUID> invitations = new HashSet<>();
+
 
     public Group(String name, UUID owner) {
         this.name = name;
@@ -40,8 +42,8 @@ public class Group {
         members.remove(uuid);
     }
 
-    public void addJoinRequest(UUID uuid) {
-        joinRequests.add(uuid);
+    public boolean addJoinRequest(UUID uuid) {
+        return joinRequests.add(uuid);
     }
 
     public boolean hasRequested(UUID uuid) {
@@ -49,8 +51,7 @@ public class Group {
     }
 
     public boolean removeRequest(UUID uuid) {
-        joinRequests.remove(uuid);
-        return false;
+        return joinRequests.remove(uuid);
     }
 
     public Set<UUID> getJoinRequests() {
@@ -59,5 +60,21 @@ public class Group {
 
     public boolean isMember(UUID uuid) {
         return members.contains(uuid);
+    }
+
+    public boolean addInvitation(UUID uuid) {
+        return invitations.add(uuid); // true, если новое
+    }
+
+    public boolean hasInvitation(UUID uuid) {
+        return invitations.contains(uuid);
+    }
+
+    public boolean removeInvitation(UUID uuid) {
+        return invitations.remove(uuid);
+    }
+
+    public Set<UUID> getInvitations() {
+        return invitations;
     }
 }

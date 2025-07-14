@@ -6,43 +6,33 @@ authors: [ megabob ]
 description: Плагин группового чата с кастомными форматами
 softdepend: [PlaceholderAPI]
 commands:
+  gcreate:
+    description: Создать группу
   glist:
     description: Показать все группы
-    usage: /glist
-
-  gsetname:
-    description: Переименовать свою группу
-    usage: /gsetname <новое_имя>
-
   grequest:
-    description: Отправить заявку в группу
-    usage: /grequest <группа>
-
-  gaccept:
-    description: Принять игрока в свою группу
-    usage: /gaccept <ник>
-
-  gchat:
-    description: Отправить сообщение в группу
-    usage: /gchat [on|off|status]
-    aliases: [gc]
-
-  gcreate:
-    description: Создать новую группу
-    usage: /gcreate <название>
-
-  gleave:
-    description: Выйти из своей группы
-    usage: /gleave
-
-  grequests:
-    description: Посмотреть список заявок в группу
-    usage: /grequests
-
-  gdeny:
-    description: Отклонить заявку в группу
-    usage: /gdeny <ник>
-
+    description: Подать заявку в группу
+  gacceptrequest:
+    description: Принять игрока
+  gacceptinvite:
+    description: Принять приглашение в группу
+  gdenyrequest:
+    description: Отклонить заявку
+  gdenyinvite:
+    description: Отклонить приглашение
   gkick:
-    description: Исключить игрока из группы
-    usage: /gkick <ник>
+    description: Кикнуть из группы
+  ginvite:
+    description: Пригласить игрока в группу
+  ginvites:
+    description: Показать приглашения
+  gleave:
+    description: Покинуть группу
+  grequests:
+    description: Показать заявки
+  gchat:
+    description: Управление групповым чатом
+    usage: /gchat on|off|status
+    alies: [gc]
+
+

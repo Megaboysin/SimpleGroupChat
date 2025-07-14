@@ -1,0 +1,28 @@
+messages:
+  General:
+    NotFound: "Player is not found or offline"
+    EmptyMessage: "You can not send an empty message!"
+    NoRights: "You do not have permission to use this command"
+    NoGroup: "Failed to submit request. Perhaps you are already in the group or such group does not exist."
+    NotInGroup: "You are not in group anymore"
+  Request:
+    Send: "Request is sent to the Group:"
+    Deny:
+      NotOwner: "You are no owner of the group"
+      DenyOwner: "Request"
+    Accept:
+    Requests:
+      List: "Requests lists:"
+      NoRequests: "There is no requests"
+      Unknown: "Unknown"
+  Invite:
+    Send:
+    Deny:
+    Accept:
+    InvitesList:
+  GroupList:
+  GroupChatToggle:
+    On:
+    Off:
+  Kick:
+  Leave:

@@ -3,6 +3,8 @@ package kz.megabob.simpleGroupChat.groups;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import java.util.*;
+import java.util.stream.Collectors;
+
 
 public class GroupManager {
     private final Map<String, Group> groups = new HashMap<>();
@@ -16,11 +18,30 @@ public class GroupManager {
         return true;
     }
 
+    public boolean denyInvite(UUID player) {
+        for (Group group : groups.values()) {
+            if (group.hasInvitation(player)) {
+                group.removeInvitation(player);
+                return true;
+            }
+        }
+        return false;
+    }
+
     public boolean denyRequest(UUID owner, UUID target) {
         Group group = getGroup(owner);
         if (group == null || !group.getOwner().equals(owner)) return false;
+
         return group.removeRequest(target);
     }
+
+    public Set<String> getInvitations(UUID player) {
+        return groups.entrySet().stream()
+                .filter(entry -> entry.getValue().getInvitations().contains(player))
+                .map(Map.Entry::getKey) // возвращаем название группы
+                .collect(Collectors.toSet());
+    }
+
 
     public boolean kickMember(UUID owner, UUID target) {
         Group group = getGroup(owner);
@@ -66,10 +87,31 @@ public class GroupManager {
         return new ArrayList<>(groups.keySet());
     }
 
+    public boolean inviteToGroup(String groupName, UUID player) {
+        Group group = groups.get(groupName);
+        if (group == null || group.isMember(player)) return false;
+
+        return group.addInvitation(player); // true, если впервые приглашён
+    }
+
     public boolean requestToJoin(String groupName, UUID player) {
         Group group = groups.get(groupName);
         if (group == null || group.isMember(player)) return false;
-        group.addJoinRequest(player);
+
+        boolean added = group.addJoinRequest(player);
+        if (!added) return false;
+
+        // Отправка уведомления владельцу, если он онлайн
+        UUID ownerUUID = group.getOwner();
+        Player owner = Bukkit.getPlayer(ownerUUID);
+        Player requester = Bukkit.getPlayer(player);
+
+        if (owner != null && owner.isOnline() && requester != null) {
+            owner.sendMessage("§eИгрок §f" + requester.getName() + " §eподал заявку на вступление в вашу группу §7(" + groupName + ")§e.");
+            owner.sendMessage("§7Используйте §a/gaccept " + requester.getName() + "§7 для принятия.");
+            owner.sendMessage("§7Или §c/gdeny " + requester.getName() + "§7 для отклонения.");
+        }
+
         return true;
     }
 
@@ -81,31 +123,38 @@ public class GroupManager {
         return Collections.emptySet();
     }
 
+    // Проверяет, есть ли приглашение, и возвращает группу
+    public Group getInvitationGroup(UUID player) {
+        for (Group group : groups.values()) {
+            if (group.hasInvitation(player)) {
+                return group;
+            }
+        }
+        return null;
+    }
+
+    public boolean acceptInvite(UUID player) {
+        Group group = getInvitationGroup(player);
+        if (group == null) return false;
+
+        group.addMember(player);
+        group.removeInvitation(player);
+        playerToGroup.put(player, group.getName());
+        return true;
+    }
+
     public boolean acceptRequest(UUID owner, UUID requester) {
         Group group = getGroup(owner);
         if (group == null || !group.getOwner().equals(owner)) return false;
 
-        if (group.hasRequested(requester)) {
-            group.addMember(requester);
-            group.removeRequest(requester);
-            playerToGroup.put(requester, group.getName());
-            return true;
-        }
+        if (!group.hasRequested(requester)) return false;
 
-        return false;
-    }
-
-    public boolean renameGroup(UUID owner, String newName) {
-        Group group = getGroup(owner);
-        if (group == null || !group.getOwner().equals(owner)) return false;
-
-        if (groups.containsKey(newName)) return false;
-
-        groups.remove(group.getName());
-        group.setName(newName);
-        groups.put(newName, group);
+        group.addMember(requester);
+        group.removeRequest(requester);
+        playerToGroup.put(requester, group.getName());
 
         return true;
     }
+
 }
 
