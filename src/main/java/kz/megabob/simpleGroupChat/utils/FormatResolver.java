@@ -1,6 +1,8 @@
 package kz.megabob.simpleGroupChat.utils;
 
 import kz.megabob.simpleGroupChat.SimpleGroupChat;
+import kz.megabob.simpleGroupChat.groups.Group;
+import kz.megabob.simpleGroupChat.groups.GroupManager;
 import me.clip.placeholderapi.PlaceholderAPI;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.ConfigurationSection;
@@ -10,10 +12,12 @@ public class FormatResolver {
 
     private final SimpleGroupChat plugin;
     private final boolean usePapi;
+    private final GroupManager groupManager;
 
-    public FormatResolver(SimpleGroupChat plugin, boolean usePapi) {
+    public FormatResolver(SimpleGroupChat plugin, boolean usePapi, GroupManager groupManager) {
         this.plugin = plugin;
         this.usePapi = usePapi;
+        this.groupManager = groupManager;
     }
 
     public String resolve(String channel, Player sender, Player receiver, String message) {
@@ -23,8 +27,13 @@ public class FormatResolver {
             return "§c[ERROR] Invalid format section:" + channel;
         }
 
+
+
         String format = section.getString("msgformat", "{player}: {message}");
         String prefix = section.getString("prefix", "");
+        String groupName = "";
+        Group group = groupManager.getGroup(sender.getUniqueId());
+        if (group != null) groupName = group.getName();
         String nameColor = section.getString("name-color", "");
         String receivercolor = section.getString("receiver-color", "");
         String messageColor = section.getString("message-color", "");
@@ -66,6 +75,7 @@ public class FormatResolver {
                 .replace("{world-color}", worldColor)
                 .replace("{world-prefix}", worldPrefix)
                 .replace("{prefix}", prefix)
+                .replace("{group}", groupName)
                 .replace("{placeholder-prefix}", placeholderPrefix)
                 .replace("{name-color}", nameColor)
                 .replace("{message-color}", messageColor)

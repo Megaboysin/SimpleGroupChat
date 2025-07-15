@@ -1,3 +1,14 @@
+#  Colors:
+# 0 Black                 8 dark gray
+# 1 dark blue             9 light blue
+# 2 dark green            a light green
+# 3 dark cyan (бирюзовый) b light cyan (голубой)
+# 4 dark red              c light red
+# 5 purple                d magenta
+# 6 dark yellow           e light yellow
+# 7 light gray            f white
+# you can use hex colors with this syntax: "&#ffffff"
+#f.e: "&#f2e77ePlayer not found."
 messages:
   General:
     OnlyPlayers: "&cOnly players can use this command."
@@ -8,6 +19,8 @@ messages:
   GroupChatToggle:
     On: "&7Group chat is &aenabled&7. You will now chat with your group."
     Off: "&7Group chat is &cdisabled&7. You now chat globally."
+    true: "&7Group chat is &aenabled&7. You will now chat with your group."
+    false: "&7Group chat is &cdisabled&7. You now chat globally."
     AlreadyOn: "&cGroup chat is already enabled."
     AlreadyOff: "&cGroup chat is already disabled."
     Usage: "&cUsage: /gchat on|off|status"
@@ -34,9 +47,12 @@ messages:
       NotInGroup: "&cYou are not in a group."
       Success: "&eYou left the group."
       Fail: "&cFailed to leave the group."
+      Notify: "&c%player% left the group."
     List:
       Header: "&eAvailable groups:"
       Entry: " - &a%group%"
+    Join:
+      Notify: "&a%player% joined the group."
 
   Invite:
     NoActive: "&cYou don't have any pending invitations."
@@ -45,8 +61,9 @@ messages:
     NotOwner: "&cOnly the group owner can invite players."
     Send: "&aYou have invited %player% to your group."
     Notify: "&ePlayer %player% invited you to their group &7(%group%)&e."
-    AcceptHint: "&7Type &a/gacceptinvite %player%&7 to accept."
+    AcceptHint: "&7Type &a/gacceptinvite &7to accept or &c/gdenyinvite &7to deny"
     Failed: "&cFailed to invite player."
+    Denied: "&e%player% has denied your group invitation."
 
   Invites:
     AlreadyInGroup: "&cYou are already in a group."
@@ -57,6 +74,9 @@ messages:
   Request:
     Send: "&aYou have requested to join group &f%group%&a."
     Fail: "&cFailed to request to join the group."
+    Notify: "%player% wants to join your group."
+    AcceptHint: "&7Type &a/gacceptrequest &7to accept."
+    DenyHint: "&7Or type &c/gdenyrequest &7to deny."
     Requests:
       NoRequests: "&7No incoming requests."
       List: "&eJoin requests:"

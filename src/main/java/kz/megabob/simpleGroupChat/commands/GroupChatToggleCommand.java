@@ -59,7 +59,7 @@ public class GroupChatToggleCommand implements CommandExecutor, TabCompleter {
             case "status" -> {
                 boolean enabled = handler.isInGroupChatMode(player.getUniqueId());
                 player.sendMessage(langManager.getDefault(
-                        enabled ? "messages.GroupChatToggle.On" : "messages.GroupChatToggle.Off"
+                        enabled ? "messages.GroupChatToggle.true" : "messages.GroupChatToggle.false"
                 ));
             }
             default -> {

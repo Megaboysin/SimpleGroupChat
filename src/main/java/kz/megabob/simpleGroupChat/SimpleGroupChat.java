@@ -22,7 +22,7 @@ public final class SimpleGroupChat extends JavaPlugin {
         String lang = getConfig().getString("language", "eng");
         this.langManager = new LangManager(this, lang);
         this.groupManager = new GroupManager(langManager);
-        this.formatResolver = new FormatResolver(this, true);
+        this.formatResolver = new FormatResolver(this, true, groupManager);
         this.groupChatHandler = new GroupChatHandler(groupManager, formatResolver, langManager);
         GroupChatToggleCommand toggleCommand = new GroupChatToggleCommand(groupChatHandler, langManager);
         GroupCommandTabCompleter tabCompleter = new GroupCommandTabCompleter(groupManager);

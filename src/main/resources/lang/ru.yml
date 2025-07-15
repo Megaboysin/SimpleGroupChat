@@ -1,3 +1,14 @@
+#  Цвета:
+# 0 Black                 8 dark gray
+# 1 dark blue             9 light blue
+# 2 dark green            a light green
+# 3 dark cyan (бирюзовый) b light cyan (голубой)
+# 4 dark red              c light red
+# 5 purple                d magenta
+# 6 dark yellow           e light yellow
+# 7 light gray            f white
+# Вы можете использовать Hex colors в виде: "&#ffffff"
+# Например:"&#fff58aГрупповой чат &#69ff6dвключён&#fff58a. Теперь вы пишете только группе."
 messages:
   General:
     OnlyPlayers: "&cТолько игроки могут использовать эту команду."
@@ -6,59 +17,68 @@ messages:
     NotInGroup: "&cВы не состоите в группе."
 
   GroupChatToggle:
-    On: "&7Групповой чат &aвключён&7. Теперь вы пишете только группе."
-    Off: "&7Групповой чат &cвыключен&7. Теперь вы пишете глобально."
+    On: "&#fff58aГрупповой чат &#69ff6dвключён&#fff58a. Теперь вы пишете только группе."
+    Off: "&#fff58aГрупповой чат &cвыключен&#fff58a. Теперь вы пишете глобально."
+    true: "&#fff58aГрупповой чат &#69ff6dвключён&#fff58a. Теперь вы пишете только группе."
+    false: "&#fff58aГрупповой чат &cвыключен&#fff58a. Теперь вы пишете глобально."
     AlreadyOn: "&cГрупповой чат уже включён."
     AlreadyOff: "&cГрупповой чат уже выключен."
-    Usage: "&cИспользование: /gchat on|off|status"
+    Usage: "&#f18affИспользование: /gchat on|off|status"
 
   Group:
     Create:
-      Success: "&aГруппа &f%group% &aуспешно создана."
+      Success: "&#69ff6dГруппа &f%group% &#69ff6dуспешно создана."
       AlreadyInGroup: "&cВы уже в группе."
       AlreadyExists: "&cГруппа с таким именем уже существует."
     Accept:
-      Success: "&aВы приняли %player% в группу."
-      Notify: "&aВы были приняты в группу игроком %player%."
+      Success: "&#69ff6dВы приняли &f%player% в группу."
+      Notify: "&#69ff6dВы были приняты в группу игроком &f%player%."
       Fail: "&cНе удалось принять заявку."
     DenyRequest:
       NotOwner: "&cВы не владелец группы."
-      Deny: "&eВы отклонили заявку игрока %player%."
+      Deny: "&eВы отклонили заявку игрока &f%player%."
       Notify: "&cВаша заявка была отклонена."
       NoRequest: "&cОт этого игрока нет заявок."
     Kick:
-      Success: "&eИгрок %player% был исключён из группы."
+      Success: "&eИгрок &f%player% был исключён из группы."
       Notify: "&cВы были исключены из группы."
       Fail: "&cНе удалось исключить игрока."
     Leave:
       NotInGroup: "&cВы не состоите в группе."
       Success: "&eВы покинули группу."
       Fail: "&cНе удалось покинуть группу."
+      Notify: "&f%player% &cвышел из группы."
     List:
-      Header: "&eДоступные группы:"
-      Entry: " - &a%group%"
+      Header: "&bДоступные группы:"
+      Entry: " - &#69ff6d%group%"
+    Join:
+      Notify: "&f%player% &#69ff6dприсоеденился к группе."
 
   Invite:
     NoActive: "&cУ вас нет активных приглашений."
-    Accept: "&aВы присоединились к группе &f%group%&a."
+    Accept: "&#69ff6dВы присоединились к группе &f%group%&#69ff6d."
     AcceptFail: "&cНе удалось принять приглашение."
     NotOwner: "&cТолько владелец группы может приглашать игроков."
-    Send: "&aВы пригласили игрока %player% в группу."
-    Notify: "&eИгрок %player% пригласил вас в свою группу &7(%group%)&e."
-    AcceptHint: "&7Напишите &a/gacceptinvite %player%&7 для принятия."
+    Send: "&#69ff6dВы пригласили игрока %player% в группу."
+    Notify: "&eИгрок &f%player% &eпригласил вас в свою группу &#fff58a(%group%)&e."
+    AcceptHint: "&#fff58aНапишите &#69ff6d/gacceptinvite &f%player%&#fff58a для принятия."
     Failed: "&cНе удалось пригласить игрока."
+    Denied: "&f%player% &eотказался от вашего приглашения в группу."
 
   Invites:
     AlreadyInGroup: "&cВы уже состоите в группе."
-    None: "&7У вас нет приглашений."
+    None: "&#fff58aУ вас нет приглашений."
     ListHeader: "&eПриглашения в группы:"
-    ListFormat: " - &a%group%"
+    ListFormat: " - &#69ff6d%group%"
 
   Request:
-    Send: "&aВы отправили запрос на вступление в группу &f%group%&a."
+    Send: "&#69ff6dВы отправили запрос на вступление в группу &f%group%&#69ff6d."
     Fail: "&cНе удалось отправить запрос."
+    Notify: "%player% хочет вступить вашу группу."
+    AcceptHint: "&7Впиши &a/gacceptrequest &7что бы принять."
+    DenyHint: "&7Или впиши &c/gdenyrequest &7что бы отказать."
     Requests:
-      NoRequests: "&7Нет входящих запросов."
+      NoRequests: "&#fff58aНет входящих запросов."
       List: "&eЗапросы на вступление:"
       Unknown: "Неизвестный игрок"
       ShowPlayer: " - §a%player%"

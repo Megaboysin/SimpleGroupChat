@@ -1,5 +1,24 @@
+#Available placeholders for usage:
+#"{world-color}"
+#{world-prefix}"
+#"{prefix}"
+#{group}"
+#{placeholder-prefix}"
+#name-color}"
+#{message-color}"
+#{player}"
+#{receiver-prefix}"
+#{receiver-color}"
+#{receiver}"
+#{sender}"
+#{message}"
+#You can change their order anyway you want, write them in msgformat or delete, and write them into each other as shown in:
+#prefix: "§7[§7{group} &#00ffccGROUP§7]"
+#Here {group} is used in {prefix}
 group:
-  prefix: "§7[&#00ffccGROUP§7]"
+  #for eng verion use "§7[§7{group} &#00ffccGROUP§7]"
+  #for ru version use "§7[&#00ffccГруппа §7{group}§7]"
+  prefix: "§7[§7{group} &#00ffccGROUP§7]"
   placeholder-prefix: "%luckperms_prefix%"
   name-color: "&#00ffcc"
   receiver-color: "§7"
@@ -9,4 +28,5 @@ group:
     format: "§8[{world}]"
   msgformat: "{prefix} §r{placeholder-prefix}{name-color}{player} §7>> {message-color}{message}"
 
-language: "eng"
+#available variants: eng and ru
+language: "ru"

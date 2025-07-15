@@ -30,18 +30,29 @@ public class GroupManager {
         for (Group group : groups.values()) {
             if (group.hasInvitation(player)) {
                 group.removeInvitation(player);
+
+                Player p = Bukkit.getPlayer(player);
+                String playerName = (p != null) ? p.getName() : "Unknown";
+
+                Player owner = Bukkit.getPlayer(group.getOwner());
+                if (owner != null) {
+                    String msg = HexColorUtil.translateHexColorCodes(langManager.getDefault("messages.Invite.Denied"));
+                    owner.sendMessage(ChatColor.translateAlternateColorCodes('&', msg)
+                            .replace("%player%", playerName));
+                }
+
                 return true;
             }
         }
         return false;
     }
 
-    public boolean denyRequest(UUID owner, UUID target) {
+    /*public boolean denyRequest(UUID owner, UUID target) {
         Group group = getGroup(owner);
         if (group == null || !group.getOwner().equals(owner)) return false;
 
         return group.removeRequest(target);
-    }
+    }*/
 
     public Set<String> getInvitations(UUID player) {
         return groups.entrySet().stream()
@@ -75,7 +86,22 @@ public class GroupManager {
         if (group == null) return false;
 
         group.removeMember(player);
+        Player leaver = Bukkit.getPlayer(player);
+        String playerName = (leaver != null) ? leaver.getName() : "Unknown";
 
+        // Уведомляем остальных участников
+        for (UUID memberUUID : group.getMembers()) {
+            if (!memberUUID.equals(player)) {
+                Player member = Bukkit.getPlayer(memberUUID);
+                if (member != null) {
+                    String msg = HexColorUtil.translateHexColorCodes(langManager.getDefault("messages.Group.Leave.Notify"));
+                    member.sendMessage(ChatColor.translateAlternateColorCodes('&', msg)
+                            .replace("%player%", playerName));
+                }
+            }
+        }
+
+        // Если владелец покинул — удаляем всю группу
         if (group.getOwner().equals(player)) {
             for (UUID member : group.getMembers()) {
                 playerToGroup.remove(member);
@@ -159,6 +185,22 @@ public class GroupManager {
         group.addMember(player);
         group.removeInvitation(player);
         playerToGroup.put(player, group.getName());
+
+        // Уведомляем всех участников, кроме вступающего
+        Player joining = Bukkit.getPlayer(player);
+        String playerName = (joining != null) ? joining.getName() : "Unknown";
+
+        for (UUID memberUUID : group.getMembers()) {
+            if (!memberUUID.equals(player)) {
+                Player member = Bukkit.getPlayer(memberUUID);
+                if (member != null) {
+                    String msg = HexColorUtil.translateHexColorCodes(langManager.getDefault("messages.Group.Join.Notify"));
+                    member.sendMessage(ChatColor.translateAlternateColorCodes('&', msg)
+                            .replace("%player%", playerName));
+                }
+            }
+        }
+
         return true;
     }
 

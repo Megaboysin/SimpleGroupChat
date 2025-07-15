@@ -35,11 +35,11 @@ public class GroupChatHandler implements Listener {
 
         if (groupChatUsers.contains(uuid)) {
             groupChatUsers.remove(uuid);
-            String msg = HexColorUtil.translateHexColorCodes(langManager.get(langManager.getDefaultLang(), "messages.GroupChatToggle.Off"));
+            String msg = HexColorUtil.translateHexColorCodes(langManager.get(langManager.getDefaultLang(), "messages.GroupChatToggle.false"));
             player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
         } else {
             groupChatUsers.add(uuid);
-            String msg = HexColorUtil.translateHexColorCodes(langManager.get(langManager.getDefaultLang(), "messages.GroupChatToggle.On"));
+            String msg = HexColorUtil.translateHexColorCodes(langManager.get(langManager.getDefaultLang(), "messages.GroupChatToggle.true"));
             player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
         }
     }

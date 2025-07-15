@@ -17,7 +17,7 @@ public class LangManager {
     public LangManager(JavaPlugin plugin, String defaultLang) {
         this.plugin = plugin;
         this.defaultLang = defaultLang.toLowerCase();
-
+        loadLanguage("ru");
         loadLanguage("eng");
     }
 
