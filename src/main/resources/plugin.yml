@@ -33,6 +33,6 @@ commands:
   gchat:
     description: Управление групповым чатом
     usage: /gchat on|off|status
-    alies: [gc]
+    aliases: [gc]
 
 

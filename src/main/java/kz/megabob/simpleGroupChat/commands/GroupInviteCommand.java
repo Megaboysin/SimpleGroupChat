@@ -2,52 +2,67 @@ package kz.megabob.simpleGroupChat.commands;
 
 import kz.megabob.simpleGroupChat.groups.Group;
 import kz.megabob.simpleGroupChat.groups.GroupManager;
+import kz.megabob.simpleGroupChat.language.LangManager;
+import kz.megabob.simpleGroupChat.utils.HexColorUtil;
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-import java.util.UUID;
-
 public class GroupInviteCommand implements CommandExecutor {
     private final GroupManager groupManager;
+    private final LangManager langManager;
 
-    public GroupInviteCommand(GroupManager groupManager) {
+    public GroupInviteCommand(GroupManager groupManager, LangManager langManager) {
         this.groupManager = groupManager;
+        this.langManager = langManager;
     }
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         if (!(sender instanceof Player player)) {
-            sender.sendMessage("§cТолько игроки могут использовать эту команду.");
+            String msg = HexColorUtil.translateHexColorCodes(langManager.getDefault("messages.General.OnlyPlayers"));
+            sender.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
             return true;
         }
 
         if (args.length < 1) {
-            player.sendMessage("§cИспользование: /ginvite <ник>");
+            String msg = HexColorUtil.translateHexColorCodes(langManager.getDefault("messages.General.EmptyCommand"));
+            player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
             return true;
         }
 
         Player target = Bukkit.getPlayer(args[0]);
         if (target == null || !target.isOnline()) {
-            player.sendMessage("§cИгрок не найден или оффлайн.");
+            String msg = HexColorUtil.translateHexColorCodes(langManager.getDefault("messages.General.NotFound"));
+            player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
             return true;
         }
 
         Group group = groupManager.getGroup(player.getUniqueId());
         if (group == null || !group.getOwner().equals(player.getUniqueId())) {
-            player.sendMessage("§cВы не являетесь владельцем группы.");
+            String msg = HexColorUtil.translateHexColorCodes(langManager.getDefault("messages.Invite.NotOwner"));
+            player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
             return true;
         }
 
         boolean success = groupManager.inviteToGroup(group.getName(), target.getUniqueId());
         if (success) {
-            player.sendMessage("§aВы пригласили игрока §f" + target.getName() + " §aв свою группу.");
-            target.sendMessage("§eИгрок §f" + player.getName() + " §eпригласил вас в свою группу §7(" + group.getName() + ")§e.");
-            target.sendMessage("§7Введите §a/gaccept " + player.getName() + "§7, чтобы принять.");
+            String msg = HexColorUtil.translateHexColorCodes(langManager.getDefault("messages.Invite.Send"));
+            player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg)
+                    .replace("%player%", target.getName()));
+            String msg2 = HexColorUtil.translateHexColorCodes(langManager.getDefault("messages.Invite.Notify"));
+            target.sendMessage(ChatColor.translateAlternateColorCodes('&', msg2)
+                    .replace("%player%", player.getName())
+                    .replace("%group%", group.getName()));
+            String msg3 = HexColorUtil.translateHexColorCodes(langManager.getDefault("messages.Invite.AcceptHint"));
+            target.sendMessage(ChatColor.translateAlternateColorCodes('&', msg3)
+                    .replace("%player%", player.getName()));
         } else {
-            player.sendMessage("§cНе удалось отправить приглашение. Возможно, игрок уже в группе или уже приглашён.");
+            String msg = HexColorUtil.translateHexColorCodes(langManager.getDefault("messages.Invite.Failed"));
+            player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
         }
 
         return true;

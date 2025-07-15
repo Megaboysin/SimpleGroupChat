@@ -1,14 +1,22 @@
 package kz.megabob.simpleGroupChat.groups;
 
+import kz.megabob.simpleGroupChat.utils.HexColorUtil;
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import java.util.*;
 import java.util.stream.Collectors;
+import kz.megabob.simpleGroupChat.language.LangManager;
 
 
 public class GroupManager {
     private final Map<String, Group> groups = new HashMap<>();
     private final Map<UUID, String> playerToGroup = new HashMap<>();
+    private LangManager langManager;
+
+    public GroupManager(LangManager langManager){
+        this.langManager = langManager;
+    }
 
     public boolean createGroup(String name, UUID owner) {
         if (groups.containsKey(name)) return false;
@@ -107,13 +115,24 @@ public class GroupManager {
         Player requester = Bukkit.getPlayer(player);
 
         if (owner != null && owner.isOnline() && requester != null) {
-            owner.sendMessage("§eИгрок §f" + requester.getName() + " §eподал заявку на вступление в вашу группу §7(" + groupName + ")§e.");
-            owner.sendMessage("§7Используйте §a/gaccept " + requester.getName() + "§7 для принятия.");
-            owner.sendMessage("§7Или §c/gdeny " + requester.getName() + "§7 для отклонения.");
+            String ownerLang = langManager.getDefaultLang(); // Используем язык из config.yml
+            String msg = HexColorUtil.translateHexColorCodes(langManager.get(ownerLang,"messages.Request.Notify"));
+            owner.sendMessage(ChatColor.translateAlternateColorCodes('&', msg)
+                    .replace("%player%", requester.getName())
+                    .replace("%group%", groupName));
+
+            String msg2 = HexColorUtil.translateHexColorCodes(langManager.get(ownerLang,"messages.Request.AcceptHint"));
+            owner.sendMessage(ChatColor.translateAlternateColorCodes('&', msg2)
+                    .replace("%player%", requester.getName()));
+
+            String msg3 = HexColorUtil.translateHexColorCodes(langManager.get(ownerLang,"messages.Request.DenyHint"));
+            owner.sendMessage(ChatColor.translateAlternateColorCodes('&', msg3)
+                    .replace("%player%", requester.getName()));
         }
 
         return true;
     }
+
 
     public Set<UUID> getRequests(UUID player) {
         Group group = getGroup(player);

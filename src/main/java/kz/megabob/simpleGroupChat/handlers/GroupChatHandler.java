@@ -2,7 +2,9 @@ package kz.megabob.simpleGroupChat.handlers;
 
 import kz.megabob.simpleGroupChat.groups.Group;
 import kz.megabob.simpleGroupChat.groups.GroupManager;
+import kz.megabob.simpleGroupChat.language.LangManager;
 import kz.megabob.simpleGroupChat.utils.FormatResolver;
+import kz.megabob.simpleGroupChat.utils.HexColorUtil;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
@@ -17,22 +19,28 @@ import java.util.UUID;
 
 public class GroupChatHandler implements Listener {
     private final Set<UUID> groupChatUsers = new HashSet<>();
-    private GroupManager groupManager;
-    private FormatResolver formatResolver;
+    private final GroupManager groupManager;
+    private final FormatResolver formatResolver;
+    private final LangManager langManager;
 
-    public GroupChatHandler(GroupManager groupManager, FormatResolver formatResolver){
-        this.formatResolver = formatResolver;
+    public GroupChatHandler(GroupManager groupManager, FormatResolver formatResolver, LangManager langManager) {
         this.groupManager = groupManager;
+        this.formatResolver = formatResolver;
+        this.langManager = langManager;
     }
 
     public void toggleGroupChat(Player player) {
         UUID uuid = player.getUniqueId();
+        String lang = langManager.getDefaultLang();
+
         if (groupChatUsers.contains(uuid)) {
             groupChatUsers.remove(uuid);
-            player.sendMessage("§7Групповой чат §cвыключен§7.");
+            String msg = HexColorUtil.translateHexColorCodes(langManager.get(langManager.getDefaultLang(), "messages.GroupChatToggle.Off"));
+            player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
         } else {
             groupChatUsers.add(uuid);
-            player.sendMessage("§7Групповой чат §aвключен§7. Теперь вы пишете только своей группе.");
+            String msg = HexColorUtil.translateHexColorCodes(langManager.get(langManager.getDefaultLang(), "messages.GroupChatToggle.On"));
+            player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
         }
     }
 
@@ -49,49 +57,34 @@ public class GroupChatHandler implements Listener {
         }
     }
 
-    @EventHandler (priority = EventPriority.LOW)
-    public void onPlayerChat(AsyncPlayerChatEvent event){
+    @EventHandler(priority = EventPriority.LOW)
+    public void onPlayerChat(AsyncPlayerChatEvent event) {
         Player sender = event.getPlayer();
         UUID uuid = sender.getUniqueId();
         String message = event.getMessage();
-        Bukkit.getConsoleSender().sendMessage("§7[DEBUG] Чат от " + sender.getName() + ", групповой: " + isInGroupChatMode(uuid));
 
-        if (isInGroupChatMode(sender.getUniqueId())) {
-            event.setCancelled(true);
-            // отправка по своей логике
-        }
-        Bukkit.getConsoleSender().sendMessage("§e[DEBUG2] Групповой режим: " + isInGroupChatMode(sender.getUniqueId()));
-        Bukkit.getConsoleSender().sendMessage("§e[DEBUG2] Отменено: " + event.isCancelled());
-        // Проверка: находится ли игрок в групповом режиме
         if (!isInGroupChatMode(uuid)) return;
 
-        // Отменяем отправку сообщения в глобальный чат
         event.setCancelled(true);
-
-        Bukkit.getConsoleSender().sendMessage("§e[DEBUG3] Групповой режим: " + isInGroupChatMode(sender.getUniqueId()));
-        Bukkit.getConsoleSender().sendMessage("§e[DEBUG3] Отменено: " + event.isCancelled());
-
-        // Получаем группу игрока
         Group group = groupManager.getGroup(uuid);
         if (group == null) {
-            sender.sendMessage("§cВы больше не состоите в группе.");
             groupChatUsers.remove(uuid);
+            String msg = HexColorUtil.translateHexColorCodes(langManager.get(langManager.getDefaultLang(), "messages.General.NotInGroup"));
+            sender.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
             return;
         }
 
         // Отправляем сообщение всем участникам группы
         for (UUID memberUUID : group.getMembers()) {
             Player receiver = Bukkit.getPlayer(memberUUID);
-            String formatted = formatResolver.resolve("group", sender, receiver, message);
             if (receiver != null && receiver.isOnline()) {
+                String formatted = formatResolver.resolve("group", sender, receiver, message);
                 receiver.sendMessage(ChatColor.translateAlternateColorCodes('&', formatted));
-            }
-            if (receiver.equals(sender)) {
-                Bukkit.getConsoleSender().sendMessage("[GroupChat] " + ChatColor.stripColor(formatted));
+
+                if (receiver.equals(sender)) {
+                    Bukkit.getConsoleSender().sendMessage("[GroupChat] " + ChatColor.stripColor(formatted));
+                }
             }
         }
-
     }
 }
-
-

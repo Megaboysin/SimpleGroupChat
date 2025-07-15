@@ -8,3 +8,5 @@ group:
     enabled: false
     format: "§8[{world}]"
   msgformat: "{prefix} §r{placeholder-prefix}{name-color}{player} §7>> {message-color}{message}"
+
+language: "eng"

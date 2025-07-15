@@ -3,6 +3,7 @@ package kz.megabob.simpleGroupChat;
 import kz.megabob.simpleGroupChat.commands.*;
 import kz.megabob.simpleGroupChat.handlers.*;
 import kz.megabob.simpleGroupChat.groups.*;
+import kz.megabob.simpleGroupChat.language.*;
 import kz.megabob.simpleGroupChat.utils.*;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -12,35 +13,37 @@ public final class SimpleGroupChat extends JavaPlugin {
     private FileConfiguration config;
     private GroupManager groupManager;
     private FormatResolver formatResolver;
+    private LangManager langManager;
 
     @Override
     public void onEnable() {
         saveDefaultConfig();
         config = this.getConfig();
-        this.groupManager = new GroupManager();
+        String lang = getConfig().getString("language", "eng");
+        this.langManager = new LangManager(this, lang);
+        this.groupManager = new GroupManager(langManager);
         this.formatResolver = new FormatResolver(this, true);
-        this.groupChatHandler = new GroupChatHandler(groupManager, formatResolver);
-        GroupChatToggleCommand toggleCommand = new GroupChatToggleCommand(groupChatHandler);
+        this.groupChatHandler = new GroupChatHandler(groupManager, formatResolver, langManager);
+        GroupChatToggleCommand toggleCommand = new GroupChatToggleCommand(groupChatHandler, langManager);
         GroupCommandTabCompleter tabCompleter = new GroupCommandTabCompleter(groupManager);
 
-
-        getCommand("gcreate").setExecutor(new GroupCreateCommand(groupManager));
-        getCommand("glist").setExecutor(new GroupListCommand(groupManager));
-        getCommand("grequest").setExecutor(new GroupRequestCommand(groupManager));
-        getCommand("gacceptrequest").setExecutor(new GroupAcceptCommand(groupManager));
-        getCommand("gacceptinvite").setExecutor(new GroupAcceptInviteCommand(groupManager));
-        getCommand("gleave").setExecutor(new GroupLeaveCommand(groupManager));
-        getCommand("grequests").setExecutor(new GroupRequestsCommand(groupManager));
-        getCommand("gdenyrequest").setExecutor(new GroupDenyRequestCommand(groupManager));
-        getCommand("gdenyinvite").setExecutor(new GroupDenyInviteCommand(groupManager));
-        getCommand("gkick").setExecutor(new GroupKickCommand(groupManager));
-        getCommand("ginvites").setExecutor(new GroupInvitesCommand(groupManager));
+        getCommand("gcreate").setExecutor(new GroupCreateCommand(groupManager, langManager));
+        getCommand("glist").setExecutor(new GroupListCommand(groupManager, langManager));
+        getCommand("grequest").setExecutor(new GroupRequestCommand(groupManager, langManager));
+        getCommand("gacceptrequest").setExecutor(new GroupAcceptCommand(groupManager, langManager));
+        getCommand("gacceptinvite").setExecutor(new GroupAcceptInviteCommand(groupManager, langManager));
+        getCommand("gleave").setExecutor(new GroupLeaveCommand(groupManager, langManager));
+        getCommand("grequests").setExecutor(new GroupRequestsCommand(groupManager, langManager));
+        getCommand("gdenyrequest").setExecutor(new GroupDenyRequestCommand(groupManager, langManager));
+        getCommand("gdenyinvite").setExecutor(new GroupDenyInviteCommand(groupManager, langManager));
+        getCommand("gkick").setExecutor(new GroupKickCommand(groupManager, langManager));
+        getCommand("ginvites").setExecutor(new GroupInvitesCommand(groupManager, langManager));
         getCommand("gchat").setExecutor(toggleCommand);
-        getCommand("ginvite").setExecutor(new GroupInviteCommand(groupManager));
+        getCommand("ginvite").setExecutor(new GroupInviteCommand(groupManager, langManager));
 
         getCommand("grequest").setTabCompleter(tabCompleter);
-        getCommand("gaccept").setTabCompleter(tabCompleter);
-        getCommand("gdeny").setTabCompleter(tabCompleter);
+        // getCommand("gaccept").setTabCompleter(tabCompleter);
+        // getCommand("gdeny").setTabCompleter(tabCompleter);
         getCommand("gkick").setTabCompleter(tabCompleter);
         getCommand("ginvite").setTabCompleter(tabCompleter);
         getCommand("glist").setTabCompleter(tabCompleter);

@@ -1,0 +1,64 @@
+messages:
+  General:
+    OnlyPlayers: "&cТолько игроки могут использовать эту команду."
+    EmptyCommand: "&cПожалуйста, укажите аргументы."
+    NotFound: "&cИгрок не найден."
+    NotInGroup: "&cВы не состоите в группе."
+
+  GroupChatToggle:
+    On: "&7Групповой чат &aвключён&7. Теперь вы пишете только группе."
+    Off: "&7Групповой чат &cвыключен&7. Теперь вы пишете глобально."
+    AlreadyOn: "&cГрупповой чат уже включён."
+    AlreadyOff: "&cГрупповой чат уже выключен."
+    Usage: "&cИспользование: /gchat on|off|status"
+
+  Group:
+    Create:
+      Success: "&aГруппа &f%group% &aуспешно создана."
+      AlreadyInGroup: "&cВы уже в группе."
+      AlreadyExists: "&cГруппа с таким именем уже существует."
+    Accept:
+      Success: "&aВы приняли %player% в группу."
+      Notify: "&aВы были приняты в группу игроком %player%."
+      Fail: "&cНе удалось принять заявку."
+    DenyRequest:
+      NotOwner: "&cВы не владелец группы."
+      Deny: "&eВы отклонили заявку игрока %player%."
+      Notify: "&cВаша заявка была отклонена."
+      NoRequest: "&cОт этого игрока нет заявок."
+    Kick:
+      Success: "&eИгрок %player% был исключён из группы."
+      Notify: "&cВы были исключены из группы."
+      Fail: "&cНе удалось исключить игрока."
+    Leave:
+      NotInGroup: "&cВы не состоите в группе."
+      Success: "&eВы покинули группу."
+      Fail: "&cНе удалось покинуть группу."
+    List:
+      Header: "&eДоступные группы:"
+      Entry: " - &a%group%"
+
+  Invite:
+    NoActive: "&cУ вас нет активных приглашений."
+    Accept: "&aВы присоединились к группе &f%group%&a."
+    AcceptFail: "&cНе удалось принять приглашение."
+    NotOwner: "&cТолько владелец группы может приглашать игроков."
+    Send: "&aВы пригласили игрока %player% в группу."
+    Notify: "&eИгрок %player% пригласил вас в свою группу &7(%group%)&e."
+    AcceptHint: "&7Напишите &a/gacceptinvite %player%&7 для принятия."
+    Failed: "&cНе удалось пригласить игрока."
+
+  Invites:
+    AlreadyInGroup: "&cВы уже состоите в группе."
+    None: "&7У вас нет приглашений."
+    ListHeader: "&eПриглашения в группы:"
+    ListFormat: " - &a%group%"
+
+  Request:
+    Send: "&aВы отправили запрос на вступление в группу &f%group%&a."
+    Fail: "&cНе удалось отправить запрос."
+    Requests:
+      NoRequests: "&7Нет входящих запросов."
+      List: "&eЗапросы на вступление:"
+      Unknown: "Неизвестный игрок"
+      ShowPlayer: " - §a%player%"

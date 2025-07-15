@@ -2,43 +2,51 @@ package kz.megabob.simpleGroupChat.commands;
 
 import kz.megabob.simpleGroupChat.groups.Group;
 import kz.megabob.simpleGroupChat.groups.GroupManager;
-import org.bukkit.Bukkit;
+import kz.megabob.simpleGroupChat.language.LangManager;
+import kz.megabob.simpleGroupChat.utils.HexColorUtil;
+import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-import java.util.UUID;
-
 public class GroupInvitesCommand implements CommandExecutor {
     private final GroupManager groupManager;
+    private final LangManager langManager;
 
-    public GroupInvitesCommand(GroupManager groupManager) {
+    public GroupInvitesCommand(GroupManager groupManager, LangManager langManager) {
         this.groupManager = groupManager;
+        this.langManager = langManager;
     }
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         if (!(sender instanceof Player player)) {
-            sender.sendMessage("§cТолько игроки могут использовать эту команду.");
+            String msg = HexColorUtil.translateHexColorCodes(langManager.getDefault("messages.General.OnlyPlayers"));
+            sender.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
             return true;
         }
 
         Group group = groupManager.getGroup(player.getUniqueId());
         if (group != null) {
-            player.sendMessage("§cВы уже состоите в группе.");
+            String msg = HexColorUtil.translateHexColorCodes(langManager.getDefault("messages.Invites.AlreadyInGroup"));
+            player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
             return true;
         }
 
         var invitations = groupManager.getInvitations(player.getUniqueId());
         if (invitations.isEmpty()) {
-            player.sendMessage("§7У вас нет приглашений в группы.");
+            String msg = HexColorUtil.translateHexColorCodes(langManager.getDefault("messages.Invites.None"));
+            player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
             return true;
         }
 
-        player.sendMessage("§eПриглашения в группы:");
+        String msg = HexColorUtil.translateHexColorCodes(langManager.getDefault("messages.Invites.ListHeader"));
+        player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
         for (String groupName : invitations) {
-            player.sendMessage(" §f- §a" + groupName);
+            String msg2 = HexColorUtil.translateHexColorCodes(langManager.getDefault("messages.Invites.ListFormat"));
+            player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg2)
+                    .replace("%group%", groupName));
         }
 
         return true;

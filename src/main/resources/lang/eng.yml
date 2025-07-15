@@ -1,28 +1,64 @@
 messages:
   General:
-    NotFound: "Player is not found or offline"
-    EmptyMessage: "You can not send an empty message!"
-    NoRights: "You do not have permission to use this command"
-    NoGroup: "Failed to submit request. Perhaps you are already in the group or such group does not exist."
-    NotInGroup: "You are not in group anymore"
-  Request:
-    Send: "Request is sent to the Group:"
-    Deny:
-      NotOwner: "You are no owner of the group"
-      DenyOwner: "Request"
-    Accept:
-    Requests:
-      List: "Requests lists:"
-      NoRequests: "There is no requests"
-      Unknown: "Unknown"
-  Invite:
-    Send:
-    Deny:
-    Accept:
-    InvitesList:
-  GroupList:
+    OnlyPlayers: "&cOnly players can use this command."
+    EmptyCommand: "&cPlease provide arguments."
+    NotFound: "&#f2e77ePlayer not found."
+    NotInGroup: "&cYou are not in a group."
+
   GroupChatToggle:
-    On:
-    Off:
-  Kick:
-  Leave:
+    On: "&7Group chat is &aenabled&7. You will now chat with your group."
+    Off: "&7Group chat is &cdisabled&7. You now chat globally."
+    AlreadyOn: "&cGroup chat is already enabled."
+    AlreadyOff: "&cGroup chat is already disabled."
+    Usage: "&cUsage: /gchat on|off|status"
+
+  Group:
+    Create:
+      Success: "&aGroup &f%group% &ahas been created."
+      AlreadyInGroup: "&cYou are already in a group."
+      AlreadyExists: "&cA group with that name already exists."
+    Accept:
+      Success: "&aYou accepted %player% into the group."
+      Notify: "&aYou have been accepted into the group by %player%."
+      Fail: "&cFailed to accept request."
+    DenyRequest:
+      NotOwner: "&cYou are not the owner of the group."
+      Deny: "&eYou denied %player%'s request."
+      Notify: "&cYour request was denied."
+      NoRequest: "&cNo request from that player."
+    Kick:
+      Success: "&ePlayer %player% has been kicked from the group."
+      Notify: "&cYou have been kicked from the group."
+      Fail: "&cFailed to kick player."
+    Leave:
+      NotInGroup: "&cYou are not in a group."
+      Success: "&eYou left the group."
+      Fail: "&cFailed to leave the group."
+    List:
+      Header: "&eAvailable groups:"
+      Entry: " - &a%group%"
+
+  Invite:
+    NoActive: "&cYou don't have any pending invitations."
+    Accept: "&aYou joined the group &f%group%&a."
+    AcceptFail: "&cFailed to accept invitation."
+    NotOwner: "&cOnly the group owner can invite players."
+    Send: "&aYou have invited %player% to your group."
+    Notify: "&ePlayer %player% invited you to their group &7(%group%)&e."
+    AcceptHint: "&7Type &a/gacceptinvite %player%&7 to accept."
+    Failed: "&cFailed to invite player."
+
+  Invites:
+    AlreadyInGroup: "&cYou are already in a group."
+    None: "&7You have no group invitations."
+    ListHeader: "&eGroup invitations:"
+    ListFormat: " - &a%group%"
+
+  Request:
+    Send: "&aYou have requested to join group &f%group%&a."
+    Fail: "&cFailed to request to join the group."
+    Requests:
+      NoRequests: "&7No incoming requests."
+      List: "&eJoin requests:"
+      Unknown: "Unknown Player"
+      ShowPlayer: " - §a%player%"

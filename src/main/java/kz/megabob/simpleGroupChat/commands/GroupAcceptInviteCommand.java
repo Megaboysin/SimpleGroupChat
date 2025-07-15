@@ -2,7 +2,9 @@ package kz.megabob.simpleGroupChat.commands;
 
 import kz.megabob.simpleGroupChat.groups.Group;
 import kz.megabob.simpleGroupChat.groups.GroupManager;
-import org.bukkit.Bukkit;
+import kz.megabob.simpleGroupChat.language.LangManager;
+import kz.megabob.simpleGroupChat.utils.HexColorUtil;
+import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -10,29 +12,36 @@ import org.bukkit.entity.Player;
 
 public class GroupAcceptInviteCommand implements CommandExecutor {
     private final GroupManager groupManager;
+    private final LangManager langManager;
 
-    public GroupAcceptInviteCommand(GroupManager groupManager) {
+    public GroupAcceptInviteCommand(GroupManager groupManager, LangManager langManager) {
         this.groupManager = groupManager;
+        this.langManager = langManager;
     }
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         if (!(sender instanceof Player player)) {
-            sender.sendMessage("§cТолько игроки могут использовать эту команду.");
+            String msg = HexColorUtil.translateHexColorCodes(langManager.getDefault("messages.General.OnlyPlayers"));
+            sender.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
             return true;
         }
 
         Group group = groupManager.getInvitationGroup(player.getUniqueId());
         if (group == null) {
-            player.sendMessage("§cУ вас нет активных приглашений в группы.");
+            String msg = HexColorUtil.translateHexColorCodes(langManager.getDefault("messages.Invite.NoActive"));
+            player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
             return true;
         }
 
         boolean success = groupManager.acceptInvite(player.getUniqueId());
         if (success) {
-            player.sendMessage("§aВы приняли приглашение и вступили в группу §f" + group.getName() + "§a.");
+            String msg = HexColorUtil.translateHexColorCodes(langManager.getDefault("messages.Invite.Accept"));
+            player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg)
+                    .replace("%group%", group.getName()));
         } else {
-            player.sendMessage("§cНе удалось принять приглашение.");
+            String msg = HexColorUtil.translateHexColorCodes(langManager.getDefault("messages.Invite.AcceptFail"));
+            player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
         }
 
         return true;

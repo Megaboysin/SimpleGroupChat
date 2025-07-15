@@ -1,6 +1,9 @@
 package kz.megabob.simpleGroupChat.commands;
 
 import kz.megabob.simpleGroupChat.handlers.GroupChatHandler;
+import kz.megabob.simpleGroupChat.language.LangManager;
+import kz.megabob.simpleGroupChat.utils.HexColorUtil;
+import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -12,15 +15,18 @@ import java.util.List;
 
 public class GroupChatToggleCommand implements CommandExecutor, TabCompleter {
     private final GroupChatHandler handler;
+    private final LangManager langManager;
 
-    public GroupChatToggleCommand(GroupChatHandler handler) {
+    public GroupChatToggleCommand(GroupChatHandler handler, LangManager langManager) {
         this.handler = handler;
+        this.langManager = langManager;
     }
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         if (!(sender instanceof Player player)) {
-            sender.sendMessage("§cКоманда только для игроков.");
+            String msg = HexColorUtil.translateHexColorCodes(langManager.getDefault("messages.General.OnlyPlayers"));
+            sender.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
             return true;
         }
 
@@ -32,26 +38,33 @@ public class GroupChatToggleCommand implements CommandExecutor, TabCompleter {
         switch (args[0].toLowerCase()) {
             case "on" -> {
                 if (handler.isInGroupChatMode(player.getUniqueId())) {
-                    player.sendMessage("§eГрупповой чат уже включён.");
+                    String msg = HexColorUtil.translateHexColorCodes(langManager.getDefault("mmessages.GroupChatToggle.AlreadyOn"));
+                    player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
                 } else {
                     handler.setGroupChatMode(player, true);
-                    player.sendMessage("§aГрупповой чат включён.");
+                    String msg = HexColorUtil.translateHexColorCodes(langManager.getDefault("messages.GroupChatToggle.true"));
+                    player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
                 }
             }
             case "off" -> {
                 if (!handler.isInGroupChatMode(player.getUniqueId())) {
-                    player.sendMessage("§eГрупповой чат уже выключен.");
+                    String msg = HexColorUtil.translateHexColorCodes(langManager.getDefault("messages.GroupChatToggle.AlreadyOff"));
+                    player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
                 } else {
                     handler.setGroupChatMode(player, false);
-                    player.sendMessage("§cГрупповой чат выключен.");
+                    String msg = HexColorUtil.translateHexColorCodes(langManager.getDefault("messages.GroupChatToggle.false"));
+                    player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
                 }
             }
             case "status" -> {
                 boolean enabled = handler.isInGroupChatMode(player.getUniqueId());
-                player.sendMessage(enabled ? "§aГрупповой чат включён." : "§cГрупповой чат выключен.");
+                player.sendMessage(langManager.getDefault(
+                        enabled ? "messages.GroupChatToggle.On" : "messages.GroupChatToggle.Off"
+                ));
             }
             default -> {
-                player.sendMessage("§cИспользование: /gchat [on|off|status]");
+                String msg = HexColorUtil.translateHexColorCodes(langManager.getDefault("messages.GroupChatToggle.Usage"));
+                player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
             }
         }
 
