@@ -33,10 +33,6 @@ public class LangManager {
                     new InputStreamReader(stream, StandardCharsets.UTF_8)
             );
             languages.put(lang, config);
-            System.out.println("[LangManager] Loaded keys for " + lang + ": " + config.getKeys(true));
-            for (String key : config.getKeys(true)) {
-                System.out.println("  - " + key);
-            }
         } catch (Exception e) {
             System.out.println("[LangManager] Failed to load " + lang + ".yml");
             e.printStackTrace();
@@ -54,5 +50,12 @@ public class LangManager {
 
     public String getDefault(String key) {
         return get(defaultLang, key);
+    }
+
+    public void reloadLanguages() {
+        languages.clear();
+        loadLanguage("ru");
+        loadLanguage("eng");
+        System.out.println("[LangManager] Languages reloaded.");
     }
 }

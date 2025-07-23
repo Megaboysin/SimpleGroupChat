@@ -10,6 +10,9 @@
 # you can use hex colors with this syntax: "&#ffffff"
 #f.e: "&#f2e77ePlayer not found."
 messages:
+  Reload:
+    Success: "&#69ff6dLanguage files reloaded successfully."
+
   General:
     OnlyPlayers: "&cOnly players can use this command."
     EmptyCommand: "&cPlease provide arguments."
@@ -26,6 +29,7 @@ messages:
     Usage: "&cUsage: /gchat on|off|status"
 
   Group:
+    NotInGroup: "§cYou are not in a group."
     Create:
       Success: "&aGroup &f%group% &ahas been created."
       AlreadyInGroup: "&cYou are already in a group."
@@ -49,10 +53,22 @@ messages:
       Fail: "&cFailed to leave the group."
       Notify: "&c%player% left the group."
     List:
-      Header: "&eAvailable groups:"
-      Entry: " - &a%group%"
+      Header: "&8List of all groups:"
+      Entry: "&7• &f%group%"
     Join:
       Notify: "&a%player% joined the group."
+    Help:
+      InvalidPage: "&cInvalid page: &f%page%"
+      PreviousPage: "Prev |"
+      NextPage: "Next"
+      PageIndicator: "Page %current% of %total%"
+    Members:
+      Header: "§bMembers of group §e%group%"
+      InvalidPage: "§cInvalid page number: %page%"
+      PageIndicator: "Page %current% of %total%"
+      PreviousPage: "Previous"
+      NextPage: "Next"
+      OwnerSuffix: "§7(Owner)"
 
   Invite:
     NoActive: "&cYou don't have any pending invitations."
@@ -75,10 +91,68 @@ messages:
     Send: "&aYou have requested to join group &f%group%&a."
     Fail: "&cFailed to request to join the group."
     Notify: "%player% wants to join your group."
-    AcceptHint: "&7Type &a/gacceptrequest &7to accept."
-    DenyHint: "&7Or type &c/gdenyrequest &7to deny."
+    AcceptHint: "&7Type &a/gacceptrequest %player% &7to accept."
+    DenyHint: "&7Or type &c/gdenyrequest %player% &7to deny."
     Requests:
       NoRequests: "&7No incoming requests."
       List: "&eJoin requests:"
       Unknown: "Unknown Player"
       ShowPlayer: " - §a%player%"
+
+commands:
+  gcreate:
+    usage: "/gcreate <Group name>"
+    description: "Create a group"
+
+  glist:
+    usage: "/glist"
+    description: "Show all groups"
+
+  grequest:
+    usage: "/grequest <Group name>"
+    description: "Send a join request to a group"
+
+  gacceptrequest:
+    usage: "/gacceptrequest <Player>"
+    description: "Accept a player's request"
+
+  gacceptinvite:
+    usage: "/gacceptinvite"
+    description: "Accept a group invitation"
+
+  gdenyrequest:
+    usage: "/gdenyrequest <Player>"
+    description: "Deny a join request"
+
+  gdenyinvite:
+    usage: "/gdenyinvite"
+    description: "Deny a group invitation"
+
+  gkick:
+    usage: "/gkick <Player>"
+    description: "Kick a player from the group"
+
+  ginvite:
+    usage: "/ginvite <Player>"
+    description: "Invite a player to the group"
+
+  ginvites:
+    usage: "/ginvites"
+    description: "Show your invitations"
+
+  gleave:
+    usage: "/gleave"
+    description: "Leave the group"
+
+  grequests:
+    usage: "/grequests"
+    description: "Show all join requests"
+
+  gchat:
+    usage: "/gchat on|off|status"
+    description: "Manage group chat"
+
+  ghelp:
+    usage: "/ghelp"
+    description: "Show a list of all commands"
+    title: "§b§lSimpleGroupChat - Command List:"

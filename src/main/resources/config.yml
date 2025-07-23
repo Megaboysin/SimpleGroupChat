@@ -28,5 +28,8 @@ group:
     format: "§8[{world}]"
   msgformat: "{prefix} §r{placeholder-prefix}{name-color}{player} §7>> {message-color}{message}"
 
-#available variants: eng and ru
+#available variants: eng and ru, you can find them in lang foulder
 language: "ru"
+
+#NOTE: if "PlaceholderAPI" is not found when you use /pl command it will automatically read as false even if set to true
+use-placeholderapi: false

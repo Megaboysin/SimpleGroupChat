@@ -10,6 +10,9 @@
 # Вы можете использовать Hex colors в виде: "&#ffffff"
 # Например:"&#fff58aГрупповой чат &#69ff6dвключён&#fff58a. Теперь вы пишете только группе."
 messages:
+  Reload:
+    Success: "&#69ff6dФайлы перевода успешно перезагружены."
+
   General:
     OnlyPlayers: "&cТолько игроки могут использовать эту команду."
     EmptyCommand: "&cПожалуйста, укажите аргументы."
@@ -26,6 +29,7 @@ messages:
     Usage: "&#f18affИспользование: /gchat on|off|status"
 
   Group:
+    NotInGroup: "§cВы не находитесь в группе."
     Create:
       Success: "&#69ff6dГруппа &f%group% &#69ff6dуспешно создана."
       AlreadyInGroup: "&cВы уже в группе."
@@ -49,10 +53,22 @@ messages:
       Fail: "&cНе удалось покинуть группу."
       Notify: "&f%player% &cвышел из группы."
     List:
-      Header: "&bДоступные группы:"
-      Entry: " - &#69ff6d%group%"
+      Header: "&8Список всех групп:"
+      Entry: "&7• &f%group%"
     Join:
       Notify: "&f%player% &#69ff6dприсоеденился к группе."
+    Help:
+      InvalidPage: "&cНеверная страница: &f%page%"
+      PreviousPage: "Пред |"
+      NextPage: "След"
+      PageIndicator: "Страница %current% из %total%"
+    Members:
+      Header: "§bУчастники группы §e%group%"
+      InvalidPage: "§cНеверная страница: %page%"
+      PageIndicator: "Страница %current% из %total%"
+      PreviousPage: "Пред"
+      NextPage: "След"
+      OwnerSuffix: "§7(Владелец)"
 
   Invite:
     NoActive: "&cУ вас нет активных приглашений."
@@ -75,10 +91,72 @@ messages:
     Send: "&#69ff6dВы отправили запрос на вступление в группу &f%group%&#69ff6d."
     Fail: "&cНе удалось отправить запрос."
     Notify: "%player% хочет вступить вашу группу."
-    AcceptHint: "&7Впиши &a/gacceptrequest &7что бы принять."
-    DenyHint: "&7Или впиши &c/gdenyrequest &7что бы отказать."
+    AcceptHint: "&7Впиши &a/gacceptrequest %player% &7что бы принять."
+    DenyHint: "&7Или впиши &c/gdenyrequest %player% &7что бы отказать."
     Requests:
       NoRequests: "&#fff58aНет входящих запросов."
       List: "&eЗапросы на вступление:"
       Unknown: "Неизвестный игрок"
       ShowPlayer: " - §a%player%"
+
+commands:
+  gcreate:
+    usage: "/gcreate <Название группы>"
+    description: "Создать группу"
+
+  glist:
+    usage: "/glist"
+    description: "Показать все группы"
+
+  grequest:
+    usage: "/grequest <Название группы>"
+    description: "Подать заявку в группу"
+
+  gacceptrequest:
+    usage: "/gacceptrequest <Ник>"
+    description: "Принять игрока"
+
+  gacceptinvite:
+    usage: "/gacceptinvite"
+    description: "Принять приглашение в группу"
+
+  gdenyrequest:
+    usage: "/gdenyrequest <Ник>"
+    description: "Отклонить заявку"
+
+  gdenyinvite:
+    usage: "/gdenyinvite"
+    description: "Отклонить приглашение"
+
+  gkick:
+    usage: "/gkick <Ник>"
+    description: "Кикнуть из группы"
+
+  ginvite:
+    usage: "/ginvite <Ник>"
+    description: "Пригласить игрока в группу"
+
+  ginvites:
+    usage: "/ginvites"
+    description: "Показать приглашения"
+
+  gleave:
+    usage: "/gleave"
+    description: "Покинуть группу"
+
+  grequests:
+    usage: "/grequests"
+    description: "Показать заявки"
+
+  gchat:
+    usage: "/gchat on|off|status"
+    description: "Управление групповым чатом"
+
+  ghelp:
+    usage: "/ghelp"
+    description: "Показать список всех команд"
+    title: "§b§lSimpleGroupChat - Список команд:"
+
+  glistmembers:
+    usage: "/glistmembers [страница]"
+    description: "Показать участников вашей группы"

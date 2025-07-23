@@ -5,7 +5,10 @@ api-version: '1.21'
 authors: [ megabob ]
 description: Плагин группового чата с кастомными форматами
 softdepend: [PlaceholderAPI]
+folia-supported: true
 commands:
+  ghelp:
+    description: Информация о командах
   gcreate:
     description: Создать группу
   glist:
@@ -34,5 +37,11 @@ commands:
     description: Управление групповым чатом
     usage: /gchat on|off|status
     aliases: [gc]
+  glistmembers:
+    usage: /glistmembers [страница]
+    description: Показать участников вашей группы
+  greload:
+    usage: /greload
+    description: Перезагрузить конфигурацию и переводы
 
 

@@ -3,6 +3,9 @@ package kz.megabob.simpleGroupChat.commands;
 import kz.megabob.simpleGroupChat.groups.GroupManager;
 import kz.megabob.simpleGroupChat.language.LangManager;
 import kz.megabob.simpleGroupChat.utils.HexColorUtil;
+import net.md_5.bungee.api.chat.ClickEvent;
+import net.md_5.bungee.api.chat.ComponentBuilder;
+import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
@@ -33,20 +36,27 @@ public class GroupRequestsCommand implements CommandExecutor {
         Set<UUID> requests = groupManager.getRequests(player.getUniqueId());
 
         if (requests.isEmpty()) {
-            String msg = HexColorUtil.translateHexColorCodes(langManager.getDefault("messages.Request..Requests.NoRequests"));
+            String msg = HexColorUtil.translateHexColorCodes(langManager.getDefault("messages.Request.Requests.NoRequests"));
             sender.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
             return true;
         }
 
-        String msg = HexColorUtil.translateHexColorCodes(langManager.getDefault("messages.Request.Requests.List"));
-        sender.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
+        String header = HexColorUtil.translateHexColorCodes(langManager.getDefault("messages.Request.Requests.List"));
+        player.sendMessage(ChatColor.translateAlternateColorCodes('&', header));
+
         for (UUID uuid : requests) {
             Player reqPlayer = Bukkit.getPlayer(uuid);
-            String name = (reqPlayer != null) ? reqPlayer.getName() : HexColorUtil.translateHexColorCodes(langManager.getDefault("messages.Request.Requests.Unknown"));
-            String msgg = HexColorUtil.translateHexColorCodes(langManager.getDefault("messages.Request.Requests.ShowPlayer"));
-            sender.sendMessage(ChatColor.translateAlternateColorCodes('&', msgg)
-                    .replace("%player%", name));
+            String name = (reqPlayer != null) ? reqPlayer.getName() : langManager.getDefault("messages.Request.Requests.Unknown");
+            String msg = HexColorUtil.translateHexColorCodes(
+                    langManager.getDefault("messages.Request.Requests.ShowPlayer")
+                            .replace("%player%", name)
+            );
+
+            TextComponent component = new TextComponent(ChatColor.translateAlternateColorCodes('&', msg));
+            component.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/g accept " + name));
+            player.spigot().sendMessage(component);
         }
+
         return true;
     }
 }

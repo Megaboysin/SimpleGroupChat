@@ -48,7 +48,7 @@ public class GroupAcceptCommand implements CommandExecutor {
             sender.sendMessage(ChatColor.translateAlternateColorCodes('&', msg)
                     .replace("%player%", target.getName()));
             String msg2 = HexColorUtil.translateHexColorCodes(langManager.getDefault("messages.Group.Accept.Notify"));
-            sender.sendMessage(ChatColor.translateAlternateColorCodes('&', msg2)
+            target.sendMessage(ChatColor.translateAlternateColorCodes('&', msg2)
                     .replace("%player%", player.getName()));
         } else {
             String msg3 = HexColorUtil.translateHexColorCodes(langManager.getDefault("messages.Group.Accept.Fail"));

@@ -41,14 +41,17 @@ public class GroupInvitesCommand implements CommandExecutor {
             return true;
         }
 
-        String msg = HexColorUtil.translateHexColorCodes(langManager.getDefault("messages.Invites.ListHeader"));
-        player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
+        player.sendMessage("§8§m------------------------------------");
+        String header = HexColorUtil.translateHexColorCodes(langManager.getDefault("messages.Invites.ListHeader"));
+        player.sendMessage(ChatColor.translateAlternateColorCodes('&', header));
+
         for (String groupName : invitations) {
-            String msg2 = HexColorUtil.translateHexColorCodes(langManager.getDefault("messages.Invites.ListFormat"));
-            player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg2)
-                    .replace("%group%", groupName));
+            String entry = HexColorUtil.translateHexColorCodes(langManager.getDefault("messages.Invites.ListFormat"))
+                    .replace("%group%", groupName);
+            player.sendMessage(ChatColor.translateAlternateColorCodes('&', entry));
         }
 
+        player.sendMessage("§8§m------------------------------------");
         return true;
     }
 }

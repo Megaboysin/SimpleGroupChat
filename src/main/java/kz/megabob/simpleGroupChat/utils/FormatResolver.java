@@ -69,6 +69,9 @@ public class FormatResolver {
             if (receiverprefix == null || receiverprefix.equals("%luckperms_prefix%")) {
                 receiverprefix = "";
             }
+        } else{
+            receiverprefix = "";
+            placeholderPrefix = "";
         }
 
         String resolved = format
